@@ -12,7 +12,7 @@ import { Usuario } from '../../../models/usuario';
 export class LoginComponent implements OnInit {
 
   login: FormGroup;
-  loading: false;
+  loading: boolean = false;
 
   constructor(private fb:FormBuilder, private toastr: ToastrService, private router: Router) {
     this.login = this.fb.group({
