@@ -29,6 +29,7 @@ namespace Backend.Controllers
                 {
                     return BadRequest(new { message = "Ya existe un usuario " + usuario.UserName });
                 }
+                usuario.Password = Utils.Encriptar.EncriptarPassword(usuario.Password);
                 await _usuarioService.SaveUser(usuario);
                 return Ok(new { message = "Usuario registrado con éxito!" });
             }
