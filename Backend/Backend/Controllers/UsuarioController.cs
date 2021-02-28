@@ -20,10 +20,15 @@ namespace Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Usuario usuario)
+        public async Task<IActionResult> Post([FromBody] Usuario usuario)
         {
             try
             {
+                var validateExistence = await _usuarioService.ValidateExistence(usuario);
+                if (validateExistence)
+                {
+                    return BadRequest(new { message = "Ya existe un usuario " + usuario.UserName });
+                }
                 await _usuarioService.SaveUser(usuario);
                 return Ok(new { message = "Usuario registrado con éxito!" });
             }
