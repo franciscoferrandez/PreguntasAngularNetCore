@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Backend.Domain.IServices;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,10 @@ namespace Backend.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
+        private readonly ILoginService _loginService;
+        public LoginController(ILoginService loginService)
+        {
+            _loginService = loginService;
+        }
     }
 }
