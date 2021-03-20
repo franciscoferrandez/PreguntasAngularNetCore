@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Usuario } from 'src/app/models/usuario';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-register',
@@ -9,7 +10,8 @@ import { Usuario } from 'src/app/models/usuario';
 })
 export class RegisterComponent implements OnInit {
   register: FormGroup;
-  constructor(private fb:FormBuilder) {
+
+  constructor(private fb:FormBuilder, private usuarioService: UsuarioService) {
     this.register = this.fb.group({
       usuario: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(4)]],
@@ -27,7 +29,10 @@ export class RegisterComponent implements OnInit {
       username: this.register.value.usuario,
       password: this.register.value.password
     }
-    console.log(usuario);
+    //console.log(usuario);
+    this.usuarioService.saveUser(usuario).subscribe(data => {
+      console.log(data);
+    })
   }
 
   checkPassword(group: FormGroup): any {
