@@ -42,7 +42,12 @@ namespace Backend
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<ILoginRepository, LoginRepository>();
 
-
+            // CORS
+            services.AddCors(options => options.AddPolicy("AllowWebApp",
+                builder => 
+                builder.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()));
 
             services.AddControllers();
         }
@@ -57,6 +62,8 @@ namespace Backend
 
             app.UseHttpsRedirection();
 
+            app.UseCors("AllowWebApp");
+            
             app.UseRouting();
 
             app.UseAuthorization();
