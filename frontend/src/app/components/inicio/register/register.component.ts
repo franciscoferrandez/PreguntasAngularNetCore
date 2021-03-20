@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Usuario } from 'src/app/models/usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
@@ -10,8 +12,12 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class RegisterComponent implements OnInit {
   register: FormGroup;
+  loading: boolean = false;
 
-  constructor(private fb:FormBuilder, private usuarioService: UsuarioService) {
+  constructor(private fb:FormBuilder, 
+      private usuarioService: UsuarioService,
+      private router: Router,
+      private toastr: ToastrService) {
     this.register = this.fb.group({
       usuario: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(4)]],
@@ -30,8 +36,12 @@ export class RegisterComponent implements OnInit {
       password: this.register.value.password
     }
     //console.log(usuario);
+    this.loading = true;
     this.usuarioService.saveUser(usuario).subscribe(data => {
       console.log(data);
+      this.toastr.success('El usuario ' + usuario.username +' fue registrado con éxito!', ' Usuario Registrado');
+      this.router.navigate(['/inicio/login']);
+      this.loading = false;
     })
   }
 
