@@ -42,6 +42,10 @@ export class RegisterComponent implements OnInit {
       this.toastr.success('El usuario ' + usuario.username +' fue registrado con éxito!', ' Usuario Registrado');
       this.router.navigate(['/inicio/login']);
       this.loading = false;
+    }, error => {
+      this.loading = false;
+      this.register.reset();
+      this.toastr.error(error.error.message, "Error");
     })
   }
 
